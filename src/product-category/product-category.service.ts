@@ -12,10 +12,6 @@ export class ProductCategoryService extends BaseService<ProductCategory> {
     super();
   }
 
-  create(createUserDto: CreateProductCategoryDto){
-    return this.userRepo.save(createUserDto);
-  }
-
   getRepository(): Repository<ProductCategory>{
       return this.userRepo;
   }
