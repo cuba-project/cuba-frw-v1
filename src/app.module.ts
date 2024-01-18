@@ -8,12 +8,12 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type:'mysql',
-      host:'localhost',
-      port:3306,
-      username:'david',
-      password:'000000',
-      database:'api_acf_dev',
+      type:'postgres',
+      host:'db.vhnfputvagvzczpcntma.supabase.co',
+      port:5432,
+      username:'postgres',
+      password:'x5Pf84VTSfezzEhpiG@nwHv9r7',
+      database:'postgres',
       entities: [__dirname + '/**/*.entity.{js,ts}']
     }),
     UsersModule,
