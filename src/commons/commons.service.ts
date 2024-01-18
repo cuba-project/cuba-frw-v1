@@ -3,6 +3,10 @@ import { FindManyOptions, Repository } from "typeorm";
 export abstract class BaseService <T>{
     abstract getRepository(): Repository<T>;
 
+    executeQuery(query:string): Promise<T>{
+        return this.getRepository().query(query);
+    }
+
     getRows(): Promise<T[]>{
         return this.getRepository().find();
     }
@@ -26,4 +30,5 @@ export abstract class BaseService <T>{
     count(options?:FindManyOptions<T>):Promise<number>{
         return this.getRepository().count(options);
     }
+
 }
