@@ -6,7 +6,7 @@ import { BaseController } from 'src/commons/commons.controller';
 import { User } from './entities/user.entity';
 import { BaseService } from 'src/commons/commons.service';
 
-@Controller('users')
+@Controller('user')
 export class UsersController extends BaseController<User> {
 
   constructor(private readonly usersService: UsersService) {
