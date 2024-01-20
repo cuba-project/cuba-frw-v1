@@ -20,4 +20,6 @@ export class Product {
     is_active:number;
     @Column()
     description:Date;
+    @Column({ type: 'json'})
+    image_url:Array<string>;
 }

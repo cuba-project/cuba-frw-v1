@@ -10,5 +10,7 @@ export class ProductCategory {
 
     @Column()
     created:Date;
-
+    
+    @Column()
+    image_url:string;
 }
