@@ -33,6 +33,14 @@ export class ProductService extends BaseService<Product> {
     });
   }
 
+  findByCategoryId(id: number) {
+    return this.productRepo.find({
+      where:{
+        product_category_id:id
+      }
+    });
+  }
+
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
