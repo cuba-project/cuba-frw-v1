@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { ProductModule } from './product/product.module';
+import { CartProcessModule } from './cart-process/cart-process.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { ProductModule } from './product/product.module';
     UsersModule,
     AuthModule,
     ProductCategoryModule,
-    ProductModule 
+    ProductModule,
+    CartProcessModule 
   ],
   controllers: [AppController],
   providers: [AppService],
