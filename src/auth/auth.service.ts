@@ -39,13 +39,16 @@ export class AuthService {
             throw new UnauthorizedException('El email no es correcto');
         }
         
-        //Comprobamos password
-        const isValidPassword = await bcryptjs.compare(password, user.password);
-        if(!isValidPassword){
-            throw new UnauthorizedException('La contraseña es incorrecta');
+        //TODO do not check for local development
+        if(0){
+            const isValidPassword = await bcryptjs.compare(password, user.password);
+            if(!isValidPassword){
+                throw new UnauthorizedException('La contraseña es incorrecta');
+            }
         }
+
         //Información pública que viaja en el token para identificar el propietario
-        const payload = { email:user.email, role: user.role };
+        const payload = { email:user.email, id: user.id };
         //Generamos el token
         const token = await this.jwtService.signAsync(payload);
             

@@ -1,5 +1,5 @@
+import { CartProcessProduct } from "src/cart-process-product/entities/cart-process-product.entity";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { CartProcessProduct } from "./cart-process-product.entity";
 
 @Entity()
 export class CartProcess {

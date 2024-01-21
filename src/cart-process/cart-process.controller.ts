@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Put } from '@nestjs/common';
 import { CartProcessService } from './cart-process.service';
 import { CreateCartProcessDto } from './dto/create-cart-process.dto';
 import { UpdateCartProcessDto } from './dto/update-cart-process.dto';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @Controller('cart-process')
 export class CartProcessController {
@@ -13,10 +14,19 @@ export class CartProcessController {
   }
 
   @Get('get-cart')
-  getCart(){
-    let id = 1;  //get current user cart process
-    //if proces does not exist create
-    return this.cartProcessService.findByUserId(+id);
+  @UseGuards(AuthGuard)
+  async getCart(@Req() request){
+    let user = request.user;
+    await this.cartProcessService.generateUserProcessId(user.role);
+    return this.cartProcessService.findByUserId(user.id);
+  }
+
+  @Put('update-cart')
+  @UseGuards(AuthGuard)
+  updateCartProcess(@Req() request,@Body() body: any){
+    this.cartProcessService.updateCartProcess(body.processId,body.productId,body.quantity);
+    let user = request.user;
+    return this.cartProcessService.findByUserId(user.id);
   }
 
   @Get()

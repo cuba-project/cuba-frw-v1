@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { ProductModule } from './product/product.module';
 import { CartProcessModule } from './cart-process/cart-process.module';
+import { CartProcessProductModule } from './cart-process-product/cart-process-product.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { CartProcessModule } from './cart-process/cart-process.module';
     AuthModule,
     ProductCategoryModule,
     ProductModule,
-    CartProcessModule 
+    CartProcessModule,
+    CartProcessProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

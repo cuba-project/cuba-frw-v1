@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
 
   //Esta función se ejecuta ANTES de llegar a un endpoint específico
   async canActivate(context: ExecutionContext):Promise<boolean> {
-
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
