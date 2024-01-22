@@ -17,8 +17,8 @@ export class User {
     @Column({nullable: false})
     password:string;
 
-    @Column({default: 'user'})
-    role:string;
+    @Column({default:1})
+    is_active:number
 
     @CreateDateColumn()
     created:Date;

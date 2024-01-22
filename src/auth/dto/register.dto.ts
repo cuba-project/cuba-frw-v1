@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsEmail, IsPhoneNumber, IsString, MinLength, isIdentityCard } from "class-validator";
+import { IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, MinLength, isIdentityCard } from "class-validator";
 
 export class RegisterDto {
     @Transform(({value})=>value.trim())
@@ -16,10 +16,15 @@ export class RegisterDto {
     password:string;
 
     @IsPhoneNumber()
+    @IsOptional()
     phone:number
     
-    @IsString()
-    role:string
+    @IsOptional()
+    customer_role_id:number = 1
+    
+    @IsNumber()
+    is_active:number = 1
 
+    @IsOptional()
     identity_document:string
 }

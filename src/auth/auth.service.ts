@@ -15,7 +15,7 @@ export class AuthService {
         private readonly jwtService: JwtService
     ){}
 
-    async register({name, email, password}: RegisterDto){
+    async register({name, email, password, phone, is_active, identity_document}: RegisterDto){
         //Comprobamos si el usuario que se va a registrar existe ya en nuesta DB.
         const user = await this.usersService.findOneByEmail(email);
 
@@ -27,6 +27,9 @@ export class AuthService {
         return await this.usersService.create({
             name,
             email,
+            phone,
+            is_active,
+            identity_document,
             //hasheamos la password
             password: await bcryptjs.hash(password, 10)
         });
