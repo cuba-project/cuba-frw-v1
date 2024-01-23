@@ -19,6 +19,9 @@ export class User {
 
     @Column({default:1})
     is_active:number
+    
+    @Column({name: 'customer_role_id'})
+    customerRoleId:string;
 
     @CreateDateColumn()
     created:Date;
