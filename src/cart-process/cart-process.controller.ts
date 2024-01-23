@@ -17,15 +17,16 @@ export class CartProcessController {
   @UseGuards(AuthGuard)
   async getCart(@Req() request){
     let user = request.user;
-    await this.cartProcessService.generateUserProcessId(user.role);
+    await this.cartProcessService.generateUserProcessId(user.id);
     return this.cartProcessService.findByUserId(user.id);
   }
 
   @Put('update-cart')
   @UseGuards(AuthGuard)
-  updateCartProcess(@Req() request,@Body() body: any){
-    this.cartProcessService.updateCartProcess(body.processId,body.productId,body.quantity);
+  async updateCartProcess(@Req() request,@Body() body: any){
     let user = request.user;
+    let process = await this.cartProcessService.findByUserId(user.id);
+    this.cartProcessService.updateCartProcess(process.id,body.productId,body.quantity);
     return this.cartProcessService.findByUserId(user.id);
   }
 
