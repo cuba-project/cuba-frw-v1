@@ -1,5 +1,6 @@
+import { CartProcessProduct } from "src/cart-process-product/entities/cart-process-product.entity";
 import { ProductCategory } from "src/product-category/entities/product-category.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -22,4 +23,7 @@ export class Product {
     description:Date;
     @Column({ type: 'json'})
     image_url:Array<string>;
+    
+    @OneToMany(type => CartProcessProduct, cart => cart.product)
+    carts: CartProcessProduct[];
 }

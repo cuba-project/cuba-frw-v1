@@ -43,9 +43,7 @@ export class CartProcessService  extends BaseService<CartProcess> {
 
   async findByUserId(userId:number){
     let carts = await this.cartProcessRepo.find({
-      relations: {
-        cart_process_products:true
-      },
+      relations: ['cart_process_products', 'cart_process_products.product'],
       where:{
         customer_id:userId
       }

@@ -1,4 +1,5 @@
 import { CartProcess } from "src/cart-process/entities/cart-process.entity";
+import { Product } from "src/product/entities/product.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -17,4 +18,8 @@ export class CartProcessProduct {
     @ManyToOne(() => CartProcess, (cartProcess) => cartProcess.cart_process_products)
     @JoinColumn({name: 'cart_process_id', referencedColumnName: 'id'})
     cart_process:CartProcess
+
+    @ManyToOne(type => Product, product => product.carts)
+    @JoinColumn({ name: 'product_id' })
+    product: Product;
 }
