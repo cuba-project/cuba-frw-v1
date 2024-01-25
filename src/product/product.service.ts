@@ -21,8 +21,15 @@ export class ProductService extends BaseService<Product> {
     return 'This action adds a new product';
   }
 
-  findAll() {
-    return this.productRepo.find();
+  async findAll(params:any) {
+    const qb = this.productRepo.
+    createQueryBuilder("product")
+    .where("product.name like :name", { name: '%'+params.name+'%' });
+    qb.getMany().then(resp=>{
+      //console.log("findAll Product Service ", resp)
+    })
+    
+    return await qb.getMany();;
   }
 
   findOne(id: number) {
