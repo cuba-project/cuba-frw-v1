@@ -26,8 +26,9 @@ export class CartProcessController {
   async updateCartProcess(@Req() request,@Body() body: any){
     let user = request.user;
     let process = await this.cartProcessService.findByUserId(user.id);
-    this.cartProcessService.updateCartProcess(process.id,body.productId,body.quantity);
-    return this.cartProcessService.findByUserId(user.id);
+    await this.cartProcessService.updateCartProcess(process.id,body.productId,body.quantity);
+    return await this.cartProcessService.findByUserId(user.id);
+    
   }
 
   @Get()

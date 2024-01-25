@@ -56,17 +56,11 @@ export class CartProcessService  extends BaseService<CartProcess> {
 
   async updateCartProcess(cartProcessId,productId,quantity){
     let cartProcessProductId = await this.cartProcessProducrSrv.findByProductProcessId(cartProcessId,productId);
-    if(quantity == 0){
-      if(cartProcessProductId){
-        this.cartProcessProducrSrv.delete(cartProcessProductId);
-      }
-    }else{
       await this.cartProcessProducrSrv.upsert({
         cartProcessId:cartProcessId,
         productId:productId,
         quantity:quantity
       });
-    }
   }
 
   async generateUserProcessId(userId){
