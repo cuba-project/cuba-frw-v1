@@ -57,7 +57,14 @@ export class AuthService {
             
         return {
             token,
-            user
+            userData : {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                is_active: user.is_active,
+                role: user.customerRoleId,
+                phone: user.phone
+            }
         };
     }
 }
