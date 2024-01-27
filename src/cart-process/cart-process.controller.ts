@@ -3,11 +3,14 @@ import { CartProcessService } from './cart-process.service';
 import { CreateCartProcessDto } from './dto/create-cart-process.dto';
 import { UpdateCartProcessDto } from './dto/update-cart-process.dto';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { OrderService } from 'src/order/order.service';
 
 @Controller('cart-process')
 export class CartProcessController {
-  constructor(private readonly cartProcessService: CartProcessService) {}
-
+  constructor(private readonly cartProcessService: CartProcessService
+    ,private orderService:OrderService
+    ) {}
+    //,private orderService:OrderService
   @Post()
   create(@Body() createCartProcessDto: CreateCartProcessDto) {
     return this.cartProcessService.create(createCartProcessDto);
@@ -29,6 +32,18 @@ export class CartProcessController {
     await this.cartProcessService.updateCartProcess(process.id,body.productId,body.quantity);
     return await this.cartProcessService.findByUserId(user.id);
     
+  }
+
+  @Post('confirm-cart')
+  @UseGuards(AuthGuard)
+  async confirmCartProcess(@Req() request,@Body() body: any){
+    let user = request.user;
+    let process = await this.cartProcessService.findByUserId(user.id);
+
+    //save address and delivery info in cart process
+    //create order
+    let orderId = await this.orderService.createOrderFromCartProcessId(process.id);
+    return {id:orderId};
   }
 
   @Get()

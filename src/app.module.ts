@@ -8,6 +8,7 @@ import { ProductCategoryModule } from './product-category/product-category.modul
 import { ProductModule } from './product/product.module';
 import { CartProcessModule } from './cart-process/cart-process.module';
 import { CartProcessProductModule } from './cart-process-product/cart-process-product.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { CartProcessProductModule } from './cart-process-product/cart-process-pr
     ProductCategoryModule,
     ProductModule,
     CartProcessModule,
-    CartProcessProductModule
+    CartProcessProductModule,
+    OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],

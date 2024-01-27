@@ -29,8 +29,14 @@ export class CartProcessService  extends BaseService<CartProcess> {
     return `This action returns all cartProcess`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cartProcess`;
+  async findOne(id: number) {
+    let result = await this.cartProcessRepo.findOne({
+      relations: ['cart_process_products', 'cart_process_products.product'],
+      where:{
+        id:id
+      }
+    });
+    return result;
   }
 
   update(id: number, updateCartProcessDto: UpdateCartProcessDto) {
