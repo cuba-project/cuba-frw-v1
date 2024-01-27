@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/commons/commons.service';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 
 @Injectable()
@@ -22,14 +22,12 @@ export class ProductService extends BaseService<Product> {
   }
 
   async findAll(params:any) {
-    const qb = this.productRepo.
-    createQueryBuilder("product")
-    .where("product.name like :name", { name: '%'+params.name+'%' });
-    qb.getMany().then(resp=>{
-      //console.log("findAll Product Service ", resp)
+    let products = await this.productRepo.find({
+      where:{
+        name:ILike(`%${params.name}%`)
+      }
     })
-    
-    return await qb.getMany();;
+    return products;
   }
 
   findOne(id: number) {
