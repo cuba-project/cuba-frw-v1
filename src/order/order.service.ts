@@ -26,10 +26,8 @@ export class OrderService extends BaseService<Order> {
 
   async createOrderFromCartProcessId(processId){
     let processData:CartProcess = await this.cartProcessService.findOne(processId);
-    console.log("createOrderFromCartProcessId",processData);
     let newOrderId = null;
     if(processData.cart_process_products.length>0){
-      //create order
       let newOrder = await this.create({
         customer_id:processData.customer_id,
         order_status_id:1,
@@ -42,17 +40,23 @@ export class OrderService extends BaseService<Order> {
       console.log("created order",newOrder)
       if(newOrder.id){
         newOrderId = newOrder.id;
+        let totalAmount = 0;
         await processData.cart_process_products.forEach(async (productData)=>{
-          //insert detail
-          console.log("insert this line",productData);
+          let lineAmount = productData.product.price*productData.quantity;
           await this.orderLineService.create({
             order_id:newOrder.id,
             product_id:productData.productId,
             quantity:productData.quantity,
-            amount:productData.product.price*productData.quantity
+            amount:lineAmount
           });
+          totalAmount += lineAmount;
         });
+        console.log("totalAmount",totalAmount);
+        await this.update(newOrder.id,{amount:totalAmount});
         //delete process id
+        await this.cartProcessService.delete(processId);
+        //should update user process id (in front too)
+        await this.cartProcessService.generateUserProcessId(processData.customer_id);
       }else{
         //error
       }
@@ -74,8 +78,8 @@ export class OrderService extends BaseService<Order> {
     return `This action returns a #${id} order`;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    await this.getRepository().update(id,updateOrderDto);
   }
 
   remove(id: number) {

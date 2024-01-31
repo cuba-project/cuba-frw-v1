@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Put, HttpException, HttpStatus } from '@nestjs/common';
 import { CartProcessService } from './cart-process.service';
 import { CreateCartProcessDto } from './dto/create-cart-process.dto';
 import { UpdateCartProcessDto } from './dto/update-cart-process.dto';
@@ -8,9 +8,9 @@ import { OrderService } from 'src/order/order.service';
 @Controller('cart-process')
 export class CartProcessController {
   constructor(private readonly cartProcessService: CartProcessService
-    ,private orderService:OrderService
-    ) {}
-    //,private orderService:OrderService
+    , private orderService: OrderService
+  ) { }
+  //,private orderService:OrderService
   @Post()
   create(@Body() createCartProcessDto: CreateCartProcessDto) {
     return this.cartProcessService.create(createCartProcessDto);
@@ -18,7 +18,7 @@ export class CartProcessController {
 
   @Get('get-cart')
   @UseGuards(AuthGuard)
-  async getCart(@Req() request){
+  async getCart(@Req() request) {
     let user = request.user;
     await this.cartProcessService.generateUserProcessId(user.id);
     return this.cartProcessService.findByUserId(user.id);
@@ -26,26 +26,32 @@ export class CartProcessController {
 
   @Put('update-cart')
   @UseGuards(AuthGuard)
-  async updateCartProcess(@Req() request,@Body() body: any){
+  async updateCartProcess(@Req() request, @Body() body: any) {
     let user = request.user;
     let process = await this.cartProcessService.findByUserId(user.id);
-    await this.cartProcessService.updateCartProcess(process.id,body.productId,body.quantity);
+    await this.cartProcessService.updateCartProcess(process.id, body.productId, body.quantity);
     return await this.cartProcessService.findByUserId(user.id);
-    
+
   }
 
   @Post('confirm-cart')
   @UseGuards(AuthGuard)
-  async confirmCartProcess(@Req() request,@Body() body: any){
-    let user = request.user;
-    let process = await this.cartProcessService.findByUserId(user.id);
+  async confirmCartProcess(@Req() request, @Body() body: any) {
+    try {
+      let user = request.user;
+      let process = await this.cartProcessService.findByUserId(user.id);
+      //save address and delivery info in cart process
+      await this.cartProcessService.saveDeliverInfo(process.id, body.orderAddresInfo);
+      //create order
+      let orderId = await this.orderService.createOrderFromCartProcessId(process.id);
+      //maybe return order full data
+      return { id: orderId };
+    } catch (error) {
+      //log error and return 'friendly' error
+      console.log(error)
+      throw new HttpException("Se ha producido un error", HttpStatus.INTERNAL_SERVER_ERROR);
 
-    //save address and delivery info in cart process
-    await this.cartProcessService.saveDeliverInfo(process.id,body.orderAddresInfo);
-    //create order
-    let orderId = await this.orderService.createOrderFromCartProcessId(process.id);
-    //maybe return order full data
-    return {id:orderId};
+    }
   }
 
   @Get()
