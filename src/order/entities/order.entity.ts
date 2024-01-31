@@ -12,4 +12,12 @@ export class Order {
     order_status_id:string;
     @Column()
     deliver_date:Date;
+    @Column()
+    city:string;
+    @Column()
+    street:string;
+    @Column()
+    postal_code:string;
+    @Column()
+    phone:string;
 }

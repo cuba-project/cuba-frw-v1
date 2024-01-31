@@ -31,7 +31,11 @@ export class OrderService extends BaseService<Order> {
       let newOrder = await this.create({
         customer_id:processData.customer_id,
         order_status_id:1,
-        deliver_date:processData.deliver_data["deliver_date"]
+        deliver_date:processData.deliver_data["deliver_date"],
+        city:processData.deliver_data["city"],
+        street:processData.deliver_data["street"],
+        postal_code:processData.deliver_data["postal_code"],
+        phone:processData.deliver_data["phone"]
       });
       console.log("created order",newOrder)
       if(newOrder.id){
@@ -39,8 +43,6 @@ export class OrderService extends BaseService<Order> {
         processData.cart_process_products.forEach(()=>{
           //insert detail
         });
-        //insert order address
-        
         //delete process id
       }else{
         //error
