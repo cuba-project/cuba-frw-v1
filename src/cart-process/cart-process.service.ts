@@ -39,8 +39,8 @@ export class CartProcessService  extends BaseService<CartProcess> {
     return result;
   }
 
-  update(id: number, updateCartProcessDto: UpdateCartProcessDto) {
-    return `This action updates a #${id} cartProcess`;
+  async update(id: number, updateCartProcessDto: UpdateCartProcessDto) {
+    await this.getRepository().update(id,updateCartProcessDto);
   }
 
   remove(id: number) {
@@ -77,6 +77,11 @@ export class CartProcessService  extends BaseService<CartProcess> {
       const token = this.generateToken();
       await this.create({customer_id:userId,token:token});
     }
+  }
+
+  async saveDeliverInfo(cartProcessId,deliverInfo:{}){
+    console.log("saveDeliverInfo",deliverInfo);
+    await this.update(cartProcessId,{deliver_data:deliverInfo})
   }
 
   generateToken(){

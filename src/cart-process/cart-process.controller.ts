@@ -41,8 +41,10 @@ export class CartProcessController {
     let process = await this.cartProcessService.findByUserId(user.id);
 
     //save address and delivery info in cart process
+    await this.cartProcessService.saveDeliverInfo(process.id,body.orderAddresInfo);
     //create order
     let orderId = await this.orderService.createOrderFromCartProcessId(process.id);
+    //maybe return order full data
     return {id:orderId};
   }
 

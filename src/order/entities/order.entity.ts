@@ -10,4 +10,6 @@ export class Order {
     customer_id:string;
     @Column({ 'name': 'order_status_id' })
     order_status_id:string;
+    @Column()
+    deliver_date:Date;
 }

@@ -1,5 +1,5 @@
 import { CartProcessProduct } from "src/cart-process-product/entities/cart-process-product.entity";
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class CartProcess {
@@ -11,6 +11,8 @@ export class CartProcess {
     token:string;
     @Column({ 'name': 'customer_id' })
     customer_id:number;
+    @Column({type:"json"})
+    deliver_data:{};
     @Column({type:"json"})
     data:{};
     @OneToMany(() => CartProcessProduct, (cartProcessProduct) => cartProcessProduct.cart_process)

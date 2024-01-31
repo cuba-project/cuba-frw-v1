@@ -30,7 +30,8 @@ export class OrderService extends BaseService<Order> {
       //create order
       let newOrder = await this.create({
         customer_id:processData.customer_id,
-        order_status_id:1
+        order_status_id:1,
+        deliver_date:processData.deliver_data["deliver_date"]
       });
       console.log("created order",newOrder)
       if(newOrder.id){
@@ -38,6 +39,8 @@ export class OrderService extends BaseService<Order> {
         processData.cart_process_products.forEach(()=>{
           //insert detail
         });
+        //insert order address
+        
         //delete process id
       }else{
         //error
