@@ -11,13 +11,16 @@ import { CartProcessModule } from 'src/cart-process/cart-process.module';
 import { CartProcessProductService } from 'src/cart-process-product/cart-process-product.service';
 import { CartProcessController } from 'src/cart-process/cart-process.controller';
 import { CartProcessProductController } from 'src/cart-process-product/cart-process-product.controller';
+import { OrderLineModule } from 'src/order-line/order-line.module';
+import { OrderLineService } from 'src/order-line/order-line.service';
+import { OrderLine } from 'src/order-line/entities/order-line.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order,CartProcess,CartProcessProduct]),
-    CartProcessModule,CartProcessProductModule
+    TypeOrmModule.forFeature([Order,CartProcess,CartProcessProduct,OrderLine]),
+    CartProcessModule,CartProcessProductModule,OrderLineModule
   ],
   controllers: [OrderController,CartProcessController,CartProcessProductController],
-  providers: [OrderService,CartProcessService,CartProcessProductService]
+  providers: [OrderService,CartProcessService,CartProcessProductService,OrderLineService]
 })
 export class OrderModule {}

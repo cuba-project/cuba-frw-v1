@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/commons/commons.service';
 import { CartProcessService } from 'src/cart-process/cart-process.service';
 import { CartProcess } from 'src/cart-process/entities/cart-process.entity';
+import { OrderLineService } from 'src/order-line/order-line.service';
 
 @Injectable()
 export class OrderService extends BaseService<Order> {
@@ -18,6 +19,7 @@ export class OrderService extends BaseService<Order> {
   constructor(
     @InjectRepository(Order) private orderRepo: Repository<Order>
     ,private readonly cartProcessService: CartProcessService
+    ,private readonly orderLineService: OrderLineService
   ){
     super();
   }
@@ -40,8 +42,15 @@ export class OrderService extends BaseService<Order> {
       console.log("created order",newOrder)
       if(newOrder.id){
         newOrderId = newOrder.id;
-        processData.cart_process_products.forEach(()=>{
+        await processData.cart_process_products.forEach(async (productData)=>{
           //insert detail
+          console.log("insert this line",productData);
+          await this.orderLineService.create({
+            order_id:newOrder.id,
+            product_id:productData.productId,
+            quantity:productData.quantity,
+            amount:productData.product.price*productData.quantity
+          });
         });
         //delete process id
       }else{
