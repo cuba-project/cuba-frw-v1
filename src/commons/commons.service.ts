@@ -1,4 +1,4 @@
-import { FindManyOptions, Repository } from "typeorm";
+import { FindManyOptions, FindOptionsWhere, Repository } from "typeorm";
 
 export abstract class BaseService <T>{
     abstract getRepository(): Repository<T>;
@@ -29,6 +29,13 @@ export abstract class BaseService <T>{
 
     count(options?:FindManyOptions<T>):Promise<number>{
         return this.getRepository().count(options);
+    }
+
+    getWhereFilter(searhc){
+        
+        let whereFilter:FindOptionsWhere<T> = {};
+
+        return whereFilter;
     }
 
 }

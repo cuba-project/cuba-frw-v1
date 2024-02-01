@@ -3,8 +3,9 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/commons/commons.service';
-import { ILike, Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
+import { isNumber, isString } from 'class-validator';
 
 @Injectable()
 export class ProductService extends BaseService<Product> {
@@ -22,10 +23,10 @@ export class ProductService extends BaseService<Product> {
   }
 
   async findAll(params:any) {
+    console.log("params", params)
+
     let products = await this.productRepo.find({
-      where:{
-        name:ILike(`%${params.name}%`)
-      }
+      where: this.getWhereFilter(params)
     })
     return products;
   }
@@ -52,5 +53,19 @@ export class ProductService extends BaseService<Product> {
 
   remove(id: number) {
     return `This action removes a #${id} product`;
+  }
+
+  getWhereFilter(searhc){
+    let whereFilter:FindOptionsWhere<Product> = {};
+
+    if(searhc.category != null){
+      whereFilter.product_category_id = searhc.category
+    }
+
+    if(searhc.name){
+      whereFilter.name = ILike(searhc.name);
+    }
+    console.log("getWhereFilter ", whereFilter)
+    return whereFilter;
   }
 }

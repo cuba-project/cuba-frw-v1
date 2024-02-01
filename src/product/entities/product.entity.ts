@@ -26,4 +26,9 @@ export class Product {
     
     @OneToMany(type => CartProcessProduct, cart => cart.product)
     carts: CartProcessProduct[];
+
+
+    public testFunction (){
+
+    }
 }
