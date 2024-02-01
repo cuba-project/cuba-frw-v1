@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { OrderLine } from "src/order-line/entities/order-line.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Order {
@@ -22,4 +23,7 @@ export class Order {
     phone:string;
     @Column('decimal', { precision: 18, scale: 2 })
     amount:number;
+
+    @OneToMany(() => OrderLine, (orderLine) => orderLine.order)
+    order_lines:OrderLine[];
 }

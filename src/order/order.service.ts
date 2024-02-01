@@ -76,7 +76,8 @@ export class OrderService extends BaseService<Order> {
     return await this.getRepository().findOne({
       where:{
         id:id
-      }
+      },
+      relations: ['order_lines'],
     });
   }
 
