@@ -58,7 +58,7 @@ export class ProductService extends BaseService<Product> {
   getWhereFilter(searhc){
     let whereFilter:FindOptionsWhere<Product> = {};
 
-    if(searhc.category != null){
+    if(searhc.category !== 'undefined'){
       whereFilter.product_category_id = searhc.category
     }
 
