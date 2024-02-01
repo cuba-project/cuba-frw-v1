@@ -18,8 +18,8 @@ export class OrderController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.orderService.findOne(+id);
   }
 
   @Patch(':id')

@@ -72,8 +72,12 @@ export class OrderService extends BaseService<Order> {
     return `This action returns all order`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.getRepository().findOne({
+      where:{
+        id:id
+      }
+    });
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
