@@ -15,9 +15,9 @@ import { OrderLineModule } from './order-line/order-line.module';
   imports: [
     TypeOrmModule.forRoot({
       type:'postgres',
-      host:'db.vhnfputvagvzczpcntma.supabase.co',
+      host:'aws-0-eu-central-1.pooler.supabase.com',
       port:5432,
-      username:'postgres',
+      username:'postgres.vhnfputvagvzczpcntma',
       password:'x5Pf84VTSfezzEhpiG@nwHv9r7',
       database:'postgres',
       entities: [__dirname + '/**/*.entity.{js,ts}']

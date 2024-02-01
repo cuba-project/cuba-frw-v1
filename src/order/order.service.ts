@@ -37,21 +37,19 @@ export class OrderService extends BaseService<Order> {
         postal_code:processData.deliver_data["postal_code"],
         phone:processData.deliver_data["phone"]
       });
-      console.log("created order",newOrder)
       if(newOrder.id){
         newOrderId = newOrder.id;
         let totalAmount = 0;
         await processData.cart_process_products.forEach(async (productData)=>{
           let lineAmount = productData.product.price*productData.quantity;
+          totalAmount += lineAmount;
           await this.orderLineService.create({
             order_id:newOrder.id,
             product_id:productData.productId,
             quantity:productData.quantity,
             amount:lineAmount
           });
-          totalAmount += lineAmount;
         });
-        console.log("totalAmount",totalAmount);
         await this.update(newOrder.id,{amount:totalAmount});
         //delete process id
         await this.cartProcessService.delete(processId);

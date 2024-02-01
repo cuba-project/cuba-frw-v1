@@ -12,7 +12,7 @@ export class Product {
     modified:Date;
     @Column()
     name:string;
-    @Column()
+    @Column('decimal', { precision: 18, scale: 2 })
     price:number;
     @OneToOne(()=>ProductCategory)
     @Column()

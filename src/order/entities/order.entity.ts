@@ -20,6 +20,6 @@ export class Order {
     postal_code:string;
     @Column()
     phone:string;
-    @Column()
+    @Column('decimal', { precision: 18, scale: 2 })
     amount:number;
 }

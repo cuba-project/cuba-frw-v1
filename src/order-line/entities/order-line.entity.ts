@@ -12,6 +12,6 @@ export class OrderLine {
     product_id:string;
     @Column()
     quantity:number;
-    @Column()
+    @Column('decimal', { precision: 18, scale: 2 })
     amount:number;
 }
