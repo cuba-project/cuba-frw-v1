@@ -51,6 +51,8 @@ export class OrderService extends BaseService<Order> {
           });
         });
         await this.update(newOrder.id,{amount:totalAmount});
+        //save in cusomer address data to autcomplete
+
         //delete process id
         await this.cartProcessService.delete(processId);
         //should update user process id (in front too)

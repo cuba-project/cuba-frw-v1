@@ -10,6 +10,7 @@ import { CartProcessModule } from './cart-process/cart-process.module';
 import { CartProcessProductModule } from './cart-process-product/cart-process-product.module';
 import { OrderModule } from './order/order.module';
 import { OrderLineModule } from './order-line/order-line.module';
+import { CustomerAddressModule } from './customer-address/customer-address.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { OrderLineModule } from './order-line/order-line.module';
     CartProcessModule,
     CartProcessProductModule,
     OrderModule,
-    OrderLineModule
+    OrderLineModule,
+    CustomerAddressModule
   ],
   controllers: [AppController],
   providers: [AppService],
