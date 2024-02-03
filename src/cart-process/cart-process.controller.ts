@@ -4,16 +4,27 @@ import { CreateCartProcessDto } from './dto/create-cart-process.dto';
 import { UpdateCartProcessDto } from './dto/update-cart-process.dto';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { OrderService } from 'src/order/order.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Controller('cart-process')
 export class CartProcessController {
   constructor(private readonly cartProcessService: CartProcessService
     , private orderService: OrderService
+    ,private eventEmitter:EventEmitter2
   ) { }
   //,private orderService:OrderService
   @Post()
   create(@Body() createCartProcessDto: CreateCartProcessDto) {
     return this.cartProcessService.create(createCartProcessDto);
+  }
+
+  @Get("order-confirm")
+  sendEmailTest(){
+    this.eventEmitter.emit('order-confirm',{
+      orderId:232,
+      to:"test@example.com",
+      subject:"Pedido confirmado"
+    });
   }
 
   @Get('get-cart')

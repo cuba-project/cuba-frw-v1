@@ -11,6 +11,9 @@ import { CartProcessProductModule } from './cart-process-product/cart-process-pr
 import { OrderModule } from './order/order.module';
 import { OrderLineModule } from './order-line/order-line.module';
 import { CustomerAddressModule } from './customer-address/customer-address.module';
+import { EmailModule } from './email/email.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -31,7 +34,12 @@ import { CustomerAddressModule } from './customer-address/customer-address.modul
     CartProcessProductModule,
     OrderModule,
     OrderLineModule,
-    CustomerAddressModule
+    CustomerAddressModule,
+    EmailModule,
+    EventEmitterModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

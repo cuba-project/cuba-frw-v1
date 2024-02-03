@@ -62,11 +62,11 @@ export class CartProcessService  extends BaseService<CartProcess> {
 
   async updateCartProcess(cartProcessId,productId,quantity){
     let cartProcessProductId = await this.cartProcessProducrSrv.findByProductProcessId(cartProcessId,productId);
-      await this.cartProcessProducrSrv.upsert({
-        cartProcessId:cartProcessId,
-        productId:productId,
-        quantity:quantity
-      });
+    await this.cartProcessProducrSrv.upsert({
+      cartProcessId:cartProcessId,
+      productId:productId,
+      quantity:quantity
+    });
   }
 
   async generateUserProcessId(userId){
@@ -80,7 +80,6 @@ export class CartProcessService  extends BaseService<CartProcess> {
   }
 
   async saveDeliverInfo(cartProcessId,deliverInfo:{}){
-    console.log("saveDeliverInfo",deliverInfo);
     await this.update(cartProcessId,{deliver_data:deliverInfo})
   }
 

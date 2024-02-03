@@ -8,6 +8,7 @@ import { BaseService } from 'src/commons/commons.service';
 import { CartProcessService } from 'src/cart-process/cart-process.service';
 import { CartProcess } from 'src/cart-process/entities/cart-process.entity';
 import { OrderLineService } from 'src/order-line/order-line.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class OrderService extends BaseService<Order> {
@@ -20,6 +21,7 @@ export class OrderService extends BaseService<Order> {
     @InjectRepository(Order) private orderRepo: Repository<Order>
     ,private readonly cartProcessService: CartProcessService
     ,private readonly orderLineService: OrderLineService
+    ,private readonly eventEmitter: EventEmitter2
   ){
     super();
   }
@@ -57,6 +59,13 @@ export class OrderService extends BaseService<Order> {
         await this.cartProcessService.delete(processId);
         //should update user process id (in front too)
         await this.cartProcessService.generateUserProcessId(processData.customer_id);
+        //todo set email to and subject
+        this.eventEmitter.emit('order-confirm',{
+          orderId:newOrderId,
+          to:"",
+          subject:""
+        });
+        
       }else{
         //error
       }
