@@ -42,6 +42,9 @@ export class OrderService extends BaseService<Order> {
       if(newOrder.id){
         newOrderId = newOrder.id;
         let totalAmount = 0;
+        let lines = [];
+        let orderData:any = {};
+        orderData.id = newOrderId;
         await processData.cart_process_products.forEach(async (productData)=>{
           let lineAmount = productData.product.price*productData.quantity;
           totalAmount += lineAmount;
@@ -51,8 +54,10 @@ export class OrderService extends BaseService<Order> {
             quantity:productData.quantity,
             amount:lineAmount
           });
+          lines.push({productName:productData.productId,quantity:productData.quantity});
         });
         await this.update(newOrder.id,{amount:totalAmount});
+        orderData.amount = totalAmount;
         //save in cusomer address data to autcomplete
 
         //delete process id
@@ -60,10 +65,14 @@ export class OrderService extends BaseService<Order> {
         //should update user process id (in front too)
         await this.cartProcessService.generateUserProcessId(processData.customer_id);
         //todo set email to and subject
+
         this.eventEmitter.emit('order-confirm',{
           orderId:newOrderId,
           to:"",
-          subject:""
+          subject:"",
+          userName:"XXXXX",
+          orderData:orderData,
+          lines:lines
         });
         
       }else{
