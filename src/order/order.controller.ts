@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @Controller('order')
 export class OrderController {
@@ -13,8 +14,10 @@ export class OrderController {
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  @UseGuards(AuthGuard)
+  findAll(@Req() request) {
+    let user = request.user;
+    return this.orderService.findAll(user.id);
   }
 
   @Get(':id')

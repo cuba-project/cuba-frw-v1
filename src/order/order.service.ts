@@ -88,8 +88,13 @@ export class OrderService extends BaseService<Order> {
     return await this.getRepository().save(createOrderDto);
   }
 
-  findAll() {
-    return `This action returns all order`;
+  async findAll(customerId) {
+    return await this.getRepository().find({
+      relations: ['order_lines'],
+      where:{
+        customer_id:customerId
+      }
+    });
   }
 
   async findOne(id: number) {
