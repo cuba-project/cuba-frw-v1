@@ -90,7 +90,7 @@ export class OrderService extends BaseService<Order> {
 
   async findAll(customerId) {
     return await this.getRepository().find({
-      relations: ['order_lines'],
+      relations: ['order_lines','order_lines.product'],
       where:{
         customer_id:customerId
       }
@@ -102,7 +102,7 @@ export class OrderService extends BaseService<Order> {
       where:{
         id:id
       },
-      relations: ['order_lines'],
+      relations: ['order_lines','order_lines.product'],
     });
   }
 
