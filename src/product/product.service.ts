@@ -25,9 +25,9 @@ export class ProductService extends BaseService<Product> {
   async findAll(params:any) {
     console.log("params", params)
 
-    let products = await this.productRepo.find({
-      where: this.getWhereFilter(params)
-    })
+    let products = await this.productRepo.findBy(
+      this.getWhereFilter(params)
+    )
     return products;
   }
 
@@ -63,7 +63,7 @@ export class ProductService extends BaseService<Product> {
     }
 
     if(searhc.name){
-      whereFilter.name = ILike(searhc.name);
+      whereFilter.name = ILike('%'+searhc.name+'%');
     }
     console.log("getWhereFilter ", whereFilter)
     return whereFilter;
