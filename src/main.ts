@@ -7,7 +7,7 @@ async function bootstrap() {
   const cors =  require('cors');
   app.setGlobalPrefix("api/v1");
 
-  app.use(cors());
+  //app.use(cors());
   
   app.useGlobalPipes(
     new ValidationPipe({
