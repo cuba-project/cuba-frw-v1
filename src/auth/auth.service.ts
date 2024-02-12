@@ -16,6 +16,8 @@ export class AuthService {
     ){}
 
     async register({name, email, password, phone, is_active, identity_document}: RegisterDto){
+        
+        console.log("Register", name)
         //Comprobamos si el usuario que se va a registrar existe ya en nuesta DB.
         const user = await this.usersService.findOneByEmail(email);
 
@@ -24,7 +26,7 @@ export class AuthService {
         }
 
         //Guardamos el usuario en una variable
-        return await this.usersService.create({
+        await this.usersService.create({
             name,
             email,
             phone,
@@ -33,6 +35,8 @@ export class AuthService {
             //hasheamos la password
             password: await bcryptjs.hash(password, 10)
         });
+
+        return this.login({email, password})
     }
 
     async login({email, password}: LoginDto){

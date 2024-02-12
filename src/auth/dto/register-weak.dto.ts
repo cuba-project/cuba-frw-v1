@@ -4,7 +4,7 @@ import { IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, MinLength, isId
 export class RegisterDto {
     @Transform(({value})=>value.trim())
     @IsString()
-    @MinLength(1, {message:"la longitud mínima debe ser 1"})
+    @MinLength(1)
     name: string;
 
     @IsEmail()
