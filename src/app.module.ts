@@ -19,11 +19,11 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     TypeOrmModule.forRoot({
       type:'postgres',
-      host:'aws-0-eu-central-1.pooler.supabase.com',
-      port:5432,
-      username:'postgres.vhnfputvagvzczpcntma',
-      password:'x5Pf84VTSfezzEhpiG@nwHv9r7',
-      database:'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.{js,ts}']
     }),
     UsersModule,
